@@ -23,20 +23,12 @@ class _bottomBarState extends ConsumerState<MyHomePage> {
   ];
   @override
   Widget build(BuildContext context) {
-    var height =
-        MediaQuery.of(context).size.width > MediaQuery.of(context).size.height
-            ? MediaQuery.of(context).size.width
-            : MediaQuery.of(context).size.height;
-
-    var width =
-        MediaQuery.of(context).size.width < MediaQuery.of(context).size.height
-            ? MediaQuery.of(context).size.width
-            : MediaQuery.of(context).size.height;
+    Size size = MediaQuery.of(context).size;
+    double height = (size.width>size.height) ? size.width : size.height;
+    double width = (size.width<size.height) ? size.width : size.height;
     var navIndex = ref.watch(navProvider);
     return Scaffold(
-      body: Center(
-        child: screens[navIndex.index],
-      ),
+      body: Center(child: screens[navIndex.index]),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: navIndex.index,
         onTap: (value) {
@@ -44,7 +36,7 @@ class _bottomBarState extends ConsumerState<MyHomePage> {
             showModalBottomSheet<void>(
               context: context,
               builder: (BuildContext context) {
-                return Container(
+                return SizedBox(
                   // color: Colors.white,
                   width: (width),
                   height: (height) * 0.25,
@@ -87,42 +79,26 @@ class _bottomBarState extends ConsumerState<MyHomePage> {
                 );
               },
             );
-          } else
+          } else {
             ref.read(navProvider.notifier).onIndexChanged(value);
+          }
         },
         type: BottomNavigationBarType.fixed,
-        // fixedColor: Colors.black,
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(
-                UniconsLine.estate,
-                // color: Colors.black,
-              ),
+              icon: Icon(UniconsLine.estate),
               label: "Home"),
           BottomNavigationBarItem(
-            icon: Icon(
-              UniconsLine.clock_eight,
-              // color: Colors.black,
-            ),
+            icon: Icon(UniconsLine.clock_eight),
             label: "Recent",
           ),
           BottomNavigationBarItem(
-              icon: Icon(
-                UniconsLine.favorite,
-                // color: Colors.black,
-              ),
+              icon: Icon(UniconsLine.favorite),
               label: "Favourites"),
           BottomNavigationBarItem(
-              icon: Icon(
-                UniconsLine.bars,
-                //  color: Colors.black,
-              ),
+              icon: Icon(UniconsLine.bars),
               label: "menu"),
-          // BottomNavigationBarItem(icon: Icon(Icons.menu), label: "Menu"),
         ],
-        // onDestinationSelected: (value) {
-        //   ref.read(bottomNavProvider.notifier).update((state) => value);
-        //}
       ),
     );
   }

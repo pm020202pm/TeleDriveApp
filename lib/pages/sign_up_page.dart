@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import '../Widgets/login_button.dart';
-import '../Widgets/text_field.dart';
 import '../const.dart';
+import '../tools/commonWidgets/login_button.dart';
+import '../tools/commonWidgets/text_field.dart';
 import 'login_page.dart';
 
 class SignUpPage extends StatefulWidget {

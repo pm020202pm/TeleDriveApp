@@ -11,17 +11,12 @@ class Item {
   Item(this.id, this.name, this.isVisible);
 }
 
-final itemsProvider =
-    StateNotifierProvider<ItemsNotifier, List<Item>>((ref) => ItemsNotifier());
+final itemsProvider = StateNotifierProvider<ItemsNotifier, List<Item>>((ref) => ItemsNotifier());
 
 class ItemsNotifier extends StateNotifier<List<Item>> {
   ItemsNotifier() : super([]);
-
   void addItem() {
-    state = [
-      ...state,
-      Item(state.length + 1, 'Album ${state.length + 1}', true)
-    ];
+    state = [...state, Item(state.length + 1, 'Album ${state.length + 1}', true)];
   }
 
   void deleteItem(int index) {
@@ -33,7 +28,7 @@ class ItemsNotifier extends StateNotifier<List<Item>> {
   void renameItem(int index, String newName, bool isVisible) {
     if (index >= 0 && index < state.length) {
       state[index] = Item(state[index].id, newName, isVisible);
-      state = List.from(state); // Notify listeners
+      state = List.from(state);
     }
   }
 
@@ -52,13 +47,11 @@ class itemTile extends StatelessWidget {
   @override
   Widget build(context) {
     //bool isVisible = true;
-    var height =
-        MediaQuery.of(context).size.width > MediaQuery.of(context).size.height
+    var height = MediaQuery.of(context).size.width > MediaQuery.of(context).size.height
             ? MediaQuery.of(context).size.width
             : MediaQuery.of(context).size.height;
 
-    var width =
-        MediaQuery.of(context).size.width < MediaQuery.of(context).size.height
+    var width = MediaQuery.of(context).size.width < MediaQuery.of(context).size.height
             ? MediaQuery.of(context).size.width
             : MediaQuery.of(context).size.height;
     final ThemeData theme = Theme.of(context);
@@ -71,8 +64,7 @@ class itemTile extends StatelessWidget {
 
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
-        final bool isVisible =
-            ref.watch<List<Item>>(itemsProvider)[index].isVisible;
+        final bool isVisible = ref.watch<List<Item>>(itemsProvider)[index].isVisible;
         return Padding(
           padding: const EdgeInsets.all(4.0),
           child: Visibility(
@@ -196,9 +188,7 @@ void _showRenameDialog(BuildContext context, WidgetRef ref, int index) {
           ),
           TextButton(
             onPressed: () {
-              ref
-                  .read(itemsProvider.notifier)
-                  .renameItem(index, controller.text, true);
+              ref.read(itemsProvider.notifier).renameItem(index, controller.text, true);
               Navigator.pop(context);
             },
             child: Text(

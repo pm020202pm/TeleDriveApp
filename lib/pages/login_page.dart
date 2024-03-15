@@ -2,9 +2,9 @@ import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:tele_drive_app/pages/sign_up_page.dart';
-import '../Widgets/login_button.dart';
-import '../Widgets/text_field.dart';
 import '../const.dart';
+import '../tools/commonWidgets/login_button.dart';
+import '../tools/commonWidgets/text_field.dart';
 import '../tools/navigationbar.dart';
 
 class LoginPage extends StatefulWidget {
