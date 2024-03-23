@@ -19,7 +19,7 @@ class _bottomBarState extends ConsumerState<MyHomePage> {
   static final List<Widget> screens = <Widget>[
     MyHome(),
     const recent(),
-    const favourites(),
+    const FavoritesPage(),
   ];
   @override
   Widget build(BuildContext context) {
