@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tele_drive_app/pages/sign_up_page.dart';
 import '../const.dart';
 import '../tools/commonWidgets/login_button.dart';
@@ -18,14 +20,30 @@ class _LoginPageState extends State<LoginPage> {
   final dio = Dio();
   TextEditingController number = TextEditingController();
   TextEditingController psswrd = TextEditingController();
-  // String token='';
   String phoneCodeHash ='';
 
 
   Future<void> signMeIn(String phoneNo, String password) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     isLoading=true;
     setState(() {});
-    token = await signIn(phoneNo, password);
+    String res = await signIn(phoneNo, password);
+    print(res);
+    if(res=="First sign up"){
+      isLoading =false;
+      setState(() {});
+      Fluttertoast.showToast(msg: "You are not registered. Sign up first.");
+    }
+    else if(res=="Error logging in"){
+      isLoading =false;
+      setState(() {});
+      Fluttertoast.showToast(msg: "Kindly enter correct Phone Number or Password");
+    }
+    else {
+      token = res;
+      Fluttertoast.showToast(msg: "Sending OTP to Telegram App");
+    }
+    await prefs.setString("token", token);
     phoneCodeHash = await sendCode(token);
     setState(() {});
     isLoading=false;
@@ -78,15 +96,17 @@ class _LoginPageState extends State<LoginPage> {
                   const Padding(
                     padding: EdgeInsets.only(bottom: 30, top: 15),
                     child: Text("Hello Again!", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 36),),),
-                  TextField1(controller: number, hintText: (phoneCodeHash=='')? "Enter Phone Number": "Enter OTP"),
-                  if(phoneCodeHash=='') TextField1(controller: psswrd, hintText: "Enter Password", obscureText: true),
+                  TextField1(controller: number, hintText: (phoneCodeHash=='')? "Enter Phone Number": "Enter OTP", textInputType: TextInputType.number,),
+                  if(phoneCodeHash=='') TextField1(controller: psswrd, hintText: "Enter Password", obscureText: true, textInputType: TextInputType.text,),
                   isLoading
                       ? CircularProgressIndicator(color: Colors.grey.shade600,)
                       : LoginButton(
                     buttonText: (phoneCodeHash=='')? "Send OTP": "Submit OTP",
                     onTap: () async {
                       (phoneCodeHash=='')
-                          ? signMeIn(number.text, psswrd.text)
+                          ? ((number.text.isNotEmpty)
+                          ? signMeIn("+91${number.text}", psswrd.text)
+                          : Fluttertoast.showToast(msg: "Enter a phone number"))
                           : loginTelegram(token, phoneCodeHash, number.text).then((value) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const MyHomePage())));
                       isLoading=false;
                       number.clear();

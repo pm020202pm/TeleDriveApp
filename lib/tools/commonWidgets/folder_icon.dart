@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:tele_drive_app/const.dart';
 import 'package:tele_drive_app/pages/folderPage.dart';
 import 'package:unicons/unicons.dart';
 class FolderIcon extends StatelessWidget {
-  const FolderIcon({super.key,required this.folderName});
-  // final Function() onTap;
+  const FolderIcon({super.key,required this.folderName, required this.folderId});
   final String folderName;
+  final String folderId;
   @override
   Widget build(BuildContext context) {
 
@@ -36,7 +38,7 @@ class FolderIcon extends StatelessWidget {
               backgroundColor: menuColor,
               title: const Text("Delete"),
               trailingIcon: const Icon(UniconsLine.trash_alt),
-              onPressed: () {}),
+              onPressed: () { deleteFolder(folderId);}),
           FocusedMenuItem(
               backgroundColor: menuColor,
               title: const Text("Rename"),
@@ -56,32 +58,33 @@ class FolderIcon extends StatelessWidget {
         ],
         child: InkWell(
           onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>FolderPage(folderName: folderName,)));
+            Navigator.push(context, PageTransition(
+                child: FolderPage(folderId: folderId, folderName: folderName,),
+                type: PageTransitionType.leftToRight),
+            );
           },
           splashColor: Colors.grey.shade300,
           borderRadius: BorderRadius.circular(15),
           radius: 70,
           child: Padding(
             padding: const EdgeInsets.all(5),
-            child: Container(
-              padding:EdgeInsets.zero,
-              margin: EdgeInsets.zero,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 5),
-                    child: Icon(Icons.folder_rounded, color: Colors.grey.shade500, size: 100,),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              // alignment: Alignment.center,
+              children: [
+                Icon(UniconsLine.folder, color: Colors.grey.shade500, size: 82,),
+                Container(
+                  alignment: Alignment.topCenter,
+                  width: 90,
+                  child: Text(
+                    folderName,
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey.shade700),
+                    softWrap: true,
+                    overflow: TextOverflow.fade,
+                    maxLines: 1,
                   ),
-                  Text(folderName,
-                      style: TextStyle(
-                          fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey.shade700)
-                  )
-                ],
-              ),
+                )
+              ],
             ),
           ),
         ),

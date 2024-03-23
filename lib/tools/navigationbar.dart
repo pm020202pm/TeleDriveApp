@@ -17,7 +17,7 @@ class MyHomePage extends ConsumerStatefulWidget {
 
 class _bottomBarState extends ConsumerState<MyHomePage> {
   static final List<Widget> screens = <Widget>[
-    const MyHome(),
+    MyHome(),
     const recent(),
     const favourites(),
   ];

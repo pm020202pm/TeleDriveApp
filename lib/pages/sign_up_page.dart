@@ -50,8 +50,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   const Padding(
                     padding: EdgeInsets.only(bottom: 30, top: 15),
                     child: Text("Hello!", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 36),),),
-                  TextField1(controller: number, hintText: "Enter Phone Number"),
-                  TextField1(controller: psswrd, hintText: "Enter Password", obscureText: true),
+                  TextField1(controller: number, hintText: "Enter Phone Number", textInputType: TextInputType.number,),
+                  TextField1(controller: psswrd, hintText: "Enter Password", obscureText: true, textInputType: TextInputType.text,),
                   (isLoading)
                       ? CircularProgressIndicator(color: Colors.grey.shade600,)
                       : LoginButton(
@@ -59,7 +59,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       onTap: () async {
                         isLoading =true;
                         setState(() {});
-                        await signUp(number.text, psswrd.text).then((value) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const LoginPage())));
+                        await signUp("+91${number.text}", psswrd.text).then((value) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const LoginPage())));
                         isLoading =false;
                         setState(() {});
                       }
