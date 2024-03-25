@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:unicons/unicons.dart';
@@ -18,7 +19,7 @@ class MyHomePage extends ConsumerStatefulWidget {
 class _bottomBarState extends ConsumerState<MyHomePage> {
   static final List<Widget> screens = <Widget>[
     MyHome(),
-    const recent(),
+    const searchPage(),
     const favourites(),
   ];
   @override
@@ -69,9 +70,9 @@ class _bottomBarState extends ConsumerState<MyHomePage> {
                             UniconsLine.trash,
                           )),
                       iconButton(
-                          "Shared",
+                          "Recents",
                           () {},
-                          Icon(UniconsLine.users_alt,
+                          Icon(UniconsLine.clock_eight,
                               size:
                                   (MediaQuery.of(context).size.height) * 0.03)),
                     ],
@@ -89,11 +90,11 @@ class _bottomBarState extends ConsumerState<MyHomePage> {
               icon: Icon(UniconsLine.estate),
               label: "Home"),
           BottomNavigationBarItem(
-            icon: Icon(UniconsLine.clock_eight),
-            label: "Recent",
+            icon: Icon(UniconsLine.search),
+            label: "Search",
           ),
           BottomNavigationBarItem(
-              icon: Icon(UniconsLine.favorite),
+              icon: Icon(Icons.favorite_border_outlined),
               label: "Favourites"),
           BottomNavigationBarItem(
               icon: Icon(UniconsLine.bars),
